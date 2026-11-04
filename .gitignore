@@ -1,0 +1,7 @@
+build/
+Config/Local.xcconfig
+xcuserdata/
+*.xcuserstate
+Tools/Harness/out/
+Tools/Harness/samples/
+.DS_Store

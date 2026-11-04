@@ -1,0 +1,12 @@
+{
+  "files.associations": {
+    "*.r": "c",
+    "*.h": "cpp",
+    "*.mm": "objective-cpp",
+    "*.xcconfig": "properties"
+  },
+  "files.exclude": {
+    "build": true,
+    "AsciiDepth.xcodeproj": false
+  }
+}

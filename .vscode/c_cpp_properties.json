@@ -1,0 +1,21 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "macOS",
+      "includePath": [
+        "${workspaceFolder}/Source",
+        "${env:HOME}/Developer/AfterEffectsSDK/Examples/Headers",
+        "${env:HOME}/Developer/AfterEffectsSDK/Examples/Headers/SP",
+        "${env:HOME}/Developer/AfterEffectsSDK/Examples/Util",
+        "${env:HOME}/Developer/AfterEffectsSDK/Examples/Resources"
+      ],
+      "defines": ["__MACH__", "MSWindows=0"],
+      "macFrameworkPath": ["/System/Library/Frameworks"],
+      "compilerPath": "/usr/bin/clang++",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "macos-clang-arm64"
+    }
+  ]
+}
