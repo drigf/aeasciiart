@@ -1,0 +1,13 @@
+// Shared build settings for the AsciiDepth Xcode project.
+// Do not put machine-specific paths here - use Config/Local.xcconfig instead.
+
+// Folder that contains the SDK's Headers/, Util/ and Resources/ directories
+// (i.e. <AfterEffectsSDK>/Examples).
+AE_SDK_ROOT = $(HOME)/Developer/AfterEffectsSDK/Examples
+
+// Copy the built .plugin into After Effects' plug-in folder after every build.
+AE_INSTALL_ON_BUILD = YES
+AE_PLUGIN_INSTALL_DIR = /Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore
+
+// Optional per-machine overrides (git-ignored). The "?" makes it optional.
+#include? "Local.xcconfig"
