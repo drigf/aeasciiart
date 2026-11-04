@@ -1,0 +1,229 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		027CB389459E8D65BAE0670C /* AsciiDepth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 971E562E95D617EF72D3FD67;};
+		0BFDFDDF69FA1AFA72733341 /* GlyphAtlas.mm in Sources */ = {isa = PBXBuildFile; fileRef = B45692888B59CCAFCFA13C22;};
+		0F5A2BF53B1E50163BFF65E1 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9B2E4EA3B5D874C1C880BE7;};
+		1D4A2F527D90FCEE9B432D03 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD847A25E878C00BBC2E7402;};
+		1E2F92A950D9D3CAF6CC1ABC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E77889C527F1B346FC5AFFB;};
+		326408DB19DAA16EF2D0A6C0 /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE738D911AC3A5C051D46D6; settings = {ATTRIBUTES = (Weak, ); };};
+		9E25766BAC08DA06247FF9FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3837408EF617572547395568;};
+		A672219A08278B435C9F55A3 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D476588F973DC134FA9019A;};
+		BF7F1137E644A7D065053F7F /* AsciiDepthPiPL.r in Resources */ = {isa = PBXBuildFile; fileRef = EEC17A1FCFDF0A9D26D5B83D;};
+		C6BF3C9424ED7291AF323B78 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28832EED1C13E2B62DC6B4DE;};
+		CAD3368FB12F23F0D2838588 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7A973752DA1378FE104D292;};
+		D7938D5083A5EB8F458AE781 /* AsciiCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304340CB1528822121F4E6D3;};
+		F51F85BC7D821AD24C18DA45 /* SubjectMask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F2234BF7596C291B5817D93;};
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1C6488EE6206E263C491DB10 /* AsciiDepth.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AsciiDepth.xcconfig"; sourceTree = "<group>";};
+		265B9B37622A59AC23853124 /* AsciiDepth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AsciiDepth.h"; sourceTree = "<group>";};
+		28832EED1C13E2B62DC6B4DE /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT;};
+		304340CB1528822121F4E6D3 /* AsciiCore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "AsciiCore.cpp"; sourceTree = "<group>";};
+		3837408EF617572547395568 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT;};
+		4683AF51EA064305FF362560 /* AsciiCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AsciiCore.h"; sourceTree = "<group>";};
+		4E77889C527F1B346FC5AFFB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT;};
+		6F2234BF7596C291B5817D93 /* SubjectMask.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "SubjectMask.mm"; sourceTree = "<group>";};
+		93034874D7EA61100653102C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info.plist"; sourceTree = "<group>";};
+		971E562E95D617EF72D3FD67 /* AsciiDepth.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "AsciiDepth.cpp"; sourceTree = "<group>";};
+		9D476588F973DC134FA9019A /* AEGP_SuiteHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "AEGP_SuiteHandler.cpp"; path = "$(AE_SDK_ROOT)/Util/AEGP_SuiteHandler.cpp"; sourceTree = "<absolute>";};
+		A7A973752DA1378FE104D292 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT;};
+		AD847A25E878C00BBC2E7402 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT;};
+		B45692888B59CCAFCFA13C22 /* GlyphAtlas.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GlyphAtlas.mm"; sourceTree = "<group>";};
+		BCE738D911AC3A5C051D46D6 /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = SDKROOT;};
+		D9B2E4EA3B5D874C1C880BE7 /* MissingSuiteError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "MissingSuiteError.cpp"; path = "$(AE_SDK_ROOT)/Util/MissingSuiteError.cpp"; sourceTree = "<absolute>";};
+		EEC17A1FCFDF0A9D26D5B83D /* AsciiDepthPiPL.r */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.rez; path = "AsciiDepthPiPL.r"; sourceTree = "<group>";};
+		F5BF48AA40CAD7891EB709FC /* AsciiDepth.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AsciiDepth.plugin; sourceTree = BUILT_PRODUCTS_DIR;};
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7CC421A1DDB28E78FC2224AF /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (
+				C6BF3C9424ED7291AF323B78 /* CoreFoundation.framework in Frameworks */,
+				1E2F92A950D9D3CAF6CC1ABC /* CoreGraphics.framework in Frameworks */,
+				CAD3368FB12F23F0D2838588 /* CoreText.framework in Frameworks */,
+				1D4A2F527D90FCEE9B432D03 /* CoreVideo.framework in Frameworks */,
+				9E25766BAC08DA06247FF9FA /* Foundation.framework in Frameworks */,
+				326408DB19DAA16EF2D0A6C0 /* Vision.framework in Frameworks */,
+			); runOnlyForDeploymentPostprocessing = 0;};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1AB3EF9C156C7E86B8F53593 /* Source */ = {isa = PBXGroup; children = (
+				971E562E95D617EF72D3FD67 /* AsciiDepth.cpp */,
+				265B9B37622A59AC23853124 /* AsciiDepth.h */,
+				EEC17A1FCFDF0A9D26D5B83D /* AsciiDepthPiPL.r */,
+				93034874D7EA61100653102C /* Info.plist */,
+				BDBA1D8E7B250EE85A0A1425 /* Core */,
+			); path = "Source"; sourceTree = "<group>";};
+		547D009064F7C3F13BEF3460 /* Products */ = {isa = PBXGroup; children = (
+				F5BF48AA40CAD7891EB709FC /* AsciiDepth.plugin */,
+			); name = Products; sourceTree = "<group>";};
+		649F037DD903349A9F8F2971 /* Frameworks */ = {isa = PBXGroup; children = (
+				28832EED1C13E2B62DC6B4DE /* CoreFoundation.framework */,
+				4E77889C527F1B346FC5AFFB /* CoreGraphics.framework */,
+				A7A973752DA1378FE104D292 /* CoreText.framework */,
+				AD847A25E878C00BBC2E7402 /* CoreVideo.framework */,
+				3837408EF617572547395568 /* Foundation.framework */,
+				BCE738D911AC3A5C051D46D6 /* Vision.framework */,
+			); name = Frameworks; sourceTree = "<group>";};
+		B9340614599AB78F485950C7 /* Root */ = {isa = PBXGroup; children = (
+				1AB3EF9C156C7E86B8F53593 /* Source */,
+				BD13AA3ACFF3D0C2ED6E4720 /* Config */,
+				F16DC88A30D8BF7A2E268690 /* Adobe SDK */,
+				649F037DD903349A9F8F2971 /* Frameworks */,
+				547D009064F7C3F13BEF3460 /* Products */,
+			); sourceTree = "<group>";};
+		BD13AA3ACFF3D0C2ED6E4720 /* Config */ = {isa = PBXGroup; children = (
+				1C6488EE6206E263C491DB10 /* AsciiDepth.xcconfig */,
+			); path = "Config"; sourceTree = "<group>";};
+		BDBA1D8E7B250EE85A0A1425 /* Core */ = {isa = PBXGroup; children = (
+				304340CB1528822121F4E6D3 /* AsciiCore.cpp */,
+				4683AF51EA064305FF362560 /* AsciiCore.h */,
+				B45692888B59CCAFCFA13C22 /* GlyphAtlas.mm */,
+				6F2234BF7596C291B5817D93 /* SubjectMask.mm */,
+			); path = "Core"; sourceTree = "<group>";};
+		F16DC88A30D8BF7A2E268690 /* Adobe SDK */ = {isa = PBXGroup; children = (
+				9D476588F973DC134FA9019A /* AEGP_SuiteHandler.cpp */,
+				D9B2E4EA3B5D874C1C880BE7 /* MissingSuiteError.cpp */,
+			); name = "Adobe SDK (compiled in)"; sourceTree = "<group>";};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		42AEFBAE01D2DFD981F7DA7D /* AsciiDepth */ = {isa = PBXNativeTarget; buildConfigurationList = F2F62AAE534BA46EC59716F3; buildPhases = (
+				F964B4AC93F8CB0399137DF2 /* Resources */,
+				303CCE6304B962FDAF287552 /* Sources */,
+				7CC421A1DDB28E78FC2224AF /* Frameworks */,
+				DB31A3EF2CB14F00C7872707 /* Install into After Effects */,
+			); buildRules = (); dependencies = (); name = AsciiDepth; productName = AsciiDepth; productReference = F5BF48AA40CAD7891EB709FC; productType = "com.apple.product-type.bundle";};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46F86FAA6BBF9AC94A7E4595 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1620;}; buildConfigurationList = AD8DC1A475C1871509FE9877; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base, ); mainGroup = B9340614599AB78F485950C7; productRefGroup = 547D009064F7C3F13BEF3460; projectDirPath = ""; projectRoot = ""; targets = (42AEFBAE01D2DFD981F7DA7D);};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F964B4AC93F8CB0399137DF2 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
+				BF7F1137E644A7D065053F7F /* AsciiDepthPiPL.r in Resources */,
+			); runOnlyForDeploymentPostprocessing = 0;};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DB31A3EF2CB14F00C7872707 /* Install into After Effects */ = {isa = PBXShellScriptBuildPhase; alwaysOutOfDate = 1; buildActionMask = 2147483647; files = (); inputPaths = (); name = "Install into After Effects"; outputPaths = (); runOnlyForDeploymentPostprocessing = 0; shellPath = /bin/sh; shellScript = "if [ \"${AE_INSTALL_ON_BUILD}\" != \"YES\" ]; then exit 0; fi\nDEST=\"${AE_PLUGIN_INSTALL_DIR}\"\nif [ ! -w \"$DEST\" ]; then\n  echo \"warning: cannot write to $DEST - run scripts/install.sh (needs sudo) to install.\"\n  exit 0\nfi\n# The install phase runs before Xcode signs the bundle, and unsigned arm64 code will not load.\ncodesign --force --deep --sign - \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}\"\nrm -rf \"$DEST/${FULL_PRODUCT_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}\" \"$DEST/\"\necho \"Installed ${FULL_PRODUCT_NAME} to $DEST - restart After Effects to load it.\"\n"; showEnvVarsInLog = 0;};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		303CCE6304B962FDAF287552 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+				027CB389459E8D65BAE0670C /* AsciiDepth.cpp in Sources */,
+				D7938D5083A5EB8F458AE781 /* AsciiCore.cpp in Sources */,
+				0BFDFDDF69FA1AFA72733341 /* GlyphAtlas.mm in Sources */,
+				F51F85BC7D821AD24C18DA45 /* SubjectMask.mm in Sources */,
+				A672219A08278B435C9F55A3 /* AEGP_SuiteHandler.cpp in Sources */,
+				0F5A2BF53B1E50163BFF65E1 /* MissingSuiteError.cpp in Sources */,
+			); runOnlyForDeploymentPostprocessing = 0;};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		178873976053F5DEC6705B15 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				INFOPLIST_FILE = Source/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nsdev.AsciiDepth;
+				PRODUCT_NAME = AsciiDepth;
+				SKIP_INSTALL = YES;
+			}; name = Debug;};
+		A1B90718075BFAFB29559AF7 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				INFOPLIST_FILE = Source/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nsdev.AsciiDepth;
+				PRODUCT_NAME = AsciiDepth;
+				SKIP_INSTALL = YES;
+			}; name = Release;};
+		B0EFB826B94DE857FA033532 /* Release */ = {isa = XCBuildConfiguration; baseConfigurationReference = 1C6488EE6206E263C491DB10; buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Source",
+					"$(AE_SDK_ROOT)/Headers",
+					"$(AE_SDK_ROOT)/Headers/SP",
+					"$(AE_SDK_ROOT)/Util",
+					"$(AE_SDK_ROOT)/Resources",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = plugin;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				ONLY_ACTIVE_ARCH = NO;
+				ARCHS = "arm64 x86_64";
+				DEBUG_INFORMATION_FORMAT = dwarf-with-dsym;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = ("NDEBUG=1", "$(inherited)");
+			}; name = Release;};
+		DAFB25CED202AFC0BE99652F /* Debug */ = {isa = XCBuildConfiguration; baseConfigurationReference = 1C6488EE6206E263C491DB10; buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Source",
+					"$(AE_SDK_ROOT)/Headers",
+					"$(AE_SDK_ROOT)/Headers/SP",
+					"$(AE_SDK_ROOT)/Util",
+					"$(AE_SDK_ROOT)/Resources",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = plugin;
+				GCC_OPTIMIZATION_LEVEL = 1;
+				ONLY_ACTIVE_ARCH = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf-with-dsym;
+				GCC_PREPROCESSOR_DEFINITIONS = ("DEBUG=1", "$(inherited)");
+			}; name = Debug;};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AD8DC1A475C1871509FE9877 /* Build configuration list for PBXProject "AsciiDepth" */ = {isa = XCConfigurationList; buildConfigurations = (
+				DAFB25CED202AFC0BE99652F /* Debug */,
+				B0EFB826B94DE857FA033532 /* Release */,
+			); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;};
+		F2F62AAE534BA46EC59716F3 /* Build configuration list for PBXNativeTarget "AsciiDepth" */ = {isa = XCConfigurationList; buildConfigurations = (
+				178873976053F5DEC6705B15 /* Debug */,
+				A1B90718075BFAFB29559AF7 /* Release */,
+			); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+}
