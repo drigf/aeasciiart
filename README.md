@@ -16,6 +16,7 @@ Source/
     AsciiCore.h / .cpp     cell analysis, depth estimate, glyph choice, rasteriser (no AE dependency)
     GlyphAtlas.mm          CoreText glyph bitmaps, sorted by ink density, cached
     SubjectMask.mm         Apple Vision foreground mask (macOS 14+)
+  TextPrompt.mm            Cocoa dialog for typing custom characters
 Config/AsciiDepth.xcconfig AE_SDK_ROOT, install-on-build settings
 scripts/gen_xcodeproj.py   regenerates AsciiDepth.xcodeproj from the files on disk
 Tools/Harness/             command-line renderer for testing without After Effects
@@ -51,7 +52,13 @@ Keys are listed at the top of `Tools/Harness/main.mm`. The harness drives exactl
 | Group | Parameter | Notes |
 |---|---|---|
 | Characters | Cell Size / Cell Aspect | Cell size is in full-res px; scales automatically at half/quarter preview |
-| | Character Set | Classic, Simple, Binary, Blocks. Glyphs are auto-sorted by ink density |
+| | Character Set | Classic, Simple, Binary, Blocks, **Custom**. Glyphs are auto-sorted by ink density |
+| | Custom Characters | Button opens a dialog to type your own characters (a word, symbols, emoji; up to 511 bytes). Order is ignored: they're sorted light to dark. Saved in the project. Clicking OK also switches the set to Custom |
+| | Text Mode | **Density Ramp** (characters chosen by brightness) or **Message** (your text repeats in reading order across the frame) |
+| | Message | Button opens a dialog to type the message. Saved in the project |
+| | Message: Solid Fill / Fill Threshold | Cells that meet the rule become solid blocks, cutting the subject out of the text: Bright Areas, Dark Areas, or Near (Depth) |
+| | Message Scroll | Shifts the message along the reading order (animatable, for scrolling text) |
+| | Font | Menlo, Menlo Bold, Monaco, Courier New (+Bold), Andale Mono, Helvetica Neue Bold |
 | | Invert Characters | Dense glyphs on dark areas instead of light |
 | Tone | Brightness / Contrast / Gamma | Affect *which character* is picked |
 | Depth | Depth Source | **Auto Estimate**, **Depth Layer**, **Subject (Apple Vision)** |
@@ -78,5 +85,6 @@ A flat video frame doesn't contain depth, so there are three honest options:
 
 - 8 and 16 bpc only (32 bpc projects are converted by After Effects). Float support needs SmartFX.
 - Source and depth layers are sampled by normalised coordinates; layers with different sizes still line up.
-- Character sets are fixed presets. Custom text would need an arbitrary-data or text param.
+- Custom characters form a density ramp, not a message: they are sorted by ink, not drawn in reading order.
+- The custom text can't be keyframed (it's a non-animatable arbitrary-data param).
 - The plug-in is ad-hoc signed. That's fine for local use. For distribution, sign with a Developer ID and notarise.
