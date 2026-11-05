@@ -24,7 +24,7 @@ SDK_SOURCES = [
     "Util/MissingSuiteError.cpp",
 ]
 
-FRAMEWORKS = ["CoreFoundation", "CoreGraphics", "CoreText", "CoreVideo", "Foundation"]
+FRAMEWORKS = ["AppKit", "CoreFoundation", "CoreGraphics", "CoreText", "CoreVideo", "Foundation"]
 WEAK_FRAMEWORKS = ["Vision"]  # macOS 14+ API, weak-linked so the plug-in still loads on 13
 
 

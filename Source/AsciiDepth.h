@@ -59,6 +59,15 @@ enum ParamIndex
     P_CELL_SIZE,
     P_CELL_ASPECT,
     P_CHARSET,
+    P_CUSTOM_BTN,   // button: opens the "type your characters" dialog
+    P_CUSTOM_TEXT,  // hidden arbitrary-data param holding the typed characters
+    P_TEXT_MODE,
+    P_MESSAGE_BTN,
+    P_MESSAGE_TEXT,
+    P_FILL,
+    P_FILL_THRESH,
+    P_SCROLL,
+    P_FONT,  // must stay after P_SCROLL: matches the add order in ParamsSetup()
     P_INVERT_CHARS,
     P_TOPIC_CHARS_END,
 
@@ -125,7 +134,16 @@ enum ParamDiskID
     ID_BACKGROUND,
 
     // New parameters are appended here so existing projects keep their values.
-    ID_NORMALIZE_DEPTH
+    ID_NORMALIZE_DEPTH,
+    ID_CUSTOM_BTN,
+    ID_CUSTOM_TEXT,
+    ID_FONT,
+    ID_TEXT_MODE,
+    ID_MESSAGE_BTN,
+    ID_MESSAGE_TEXT,
+    ID_FILL,
+    ID_FILL_THRESH,
+    ID_SCROLL
 };
 
 extern "C"

@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace ascii
@@ -58,8 +59,14 @@ enum class CharSet : int
     Simple,
     Binary,
     Blocks,
+    Custom,   // user-typed characters (Settings::customChars)
     Count
 };
+
+// Fonts offered by the Font popup, in popup order.  Keep in sync with the
+// popup string in AsciiDepth.cpp and the table in GlyphAtlas.mm.
+constexpr int kFontCount = 7;
+constexpr int kMaxCustomBytes = 511;  // UTF-8 bytes (excluding the terminator)
 
 enum class DepthSource : int
 {
@@ -84,6 +91,8 @@ struct GlyphAtlas
     std::vector<uint8_t> pixels;  // count * cellW * cellH coverage, 0..255
     std::vector<float> ink;       // normalised ink per glyph, ascending, 0..1
     std::vector<uint16_t> lut;    // 1024 entries: target density -> glyph index
+    std::vector<uint16_t> seq;    // message mode: glyph index per message character (repeats)
+    int solid = -1;               // message mode: index of the solid, fully inked cell
 
     const uint8_t* glyph(int index) const { return pixels.data() + size_t(index) * cellW * cellH; }
     int lookup(float density) const;  // density 0..1 -> glyph index
@@ -96,6 +105,15 @@ struct Settings
     float cellAspect = 1.7f;   // cell height / cell width
     CharSet charSet = CharSet::Classic;
     bool invertChars = false;
+    int font = 0;                // index into the font table (0..kFontCount-1)
+    std::string customChars;     // UTF-8; used when charSet == Custom
+
+    // Message mode: the text repeats in reading order; `fill` cells become solid blocks.
+    bool messageMode = false;
+    std::string message;         // UTF-8
+    int fillMode = 1;            // 0 none, 1 bright areas, 2 dark areas, 3 near (depth)
+    float fillThreshold = 0.5f;  // 0..1
+    int scroll = 0;              // shifts the message along the reading order, in characters
 
     // Tone (how bright the *source* is -> which character is picked)
     float brightness = 0.0f;   // -1..1
@@ -137,8 +155,13 @@ void Render(const Inputs& in, const Settings& s, const OutputView& out);
 
 // ---- Implemented by platform code (GlyphAtlas.mm / SubjectMask.mm) ----
 
-// Returns a cached atlas for the char set at the given cell size.
-std::shared_ptr<const GlyphAtlas> GetAtlas(CharSet set, int cellW, int cellH);
+// Returns a cached atlas for the char set / font / custom text at the given cell size.
+// `customUtf8` is only read when `set == CharSet::Custom`.  If the custom text yields
+// fewer than two usable glyphs the "Simple" set is used instead.
+std::shared_ptr<const GlyphAtlas> GetAtlas(CharSet set, int font, const std::string& customUtf8, int cellW, int cellH);
+
+// Atlas for message mode (glyphs of the message in order of first use, plus a solid cell).
+std::shared_ptr<const GlyphAtlas> GetMessageAtlas(int font, const std::string& message, int cellW, int cellH);
 
 // Runs Apple Vision foreground segmentation.  Returns false if unavailable or
 // nothing was found (mask is then left empty).

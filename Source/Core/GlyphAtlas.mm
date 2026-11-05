@@ -20,13 +20,57 @@
 namespace ascii
 {
 
+std::shared_ptr<const GlyphAtlas> GetAtlasImpl(CharSet set, int font, const std::string& customUtf8, const std::string* message, int cellW, int cellH);
+
 namespace
 {
 
-NSString* charactersFor(CharSet set)
+// PostScript names, in the same order as the Font popup.  CoreText substitutes a
+// default face if one is missing, so a stripped-down system still renders.
+const char* const kFontNames[kFontCount] = {
+    "Menlo-Regular", "Menlo-Bold", "Monaco", "CourierNewPSMT", "CourierNewPS-BoldMT", "AndaleMono", "HelveticaNeue-Bold",
+};
+
+// Distinct, printable characters from the user's text (composed sequences, so emoji and
+// accented letters stay whole), always preceded by a space as the lightest "glyph".
+NSString* charactersForCustom(const std::string& utf8)
+{
+    NSString* text = [[NSString alloc] initWithBytes:utf8.data() length:utf8.size() encoding:NSUTF8StringEncoding];
+    NSMutableString* out = [NSMutableString stringWithString:@" "];
+    if (text)
+    {
+        NSMutableSet<NSString*>* seen = [NSMutableSet setWithObject:@" "];
+        NSCharacterSet* blank = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+        [text enumerateSubstringsInRange:NSMakeRange(0, text.length)
+                                 options:NSStringEnumerationByComposedCharacterSequences
+                              usingBlock:^(NSString* sub, NSRange, NSRange, BOOL* stop) {
+                                  if ([sub rangeOfCharacterFromSet:blank.invertedSet].location == NSNotFound)
+                                      return;  // whitespace only
+                                  if ([seen containsObject:sub])
+                                      return;
+                                  [seen addObject:sub];
+                                  [out appendString:sub];
+                                  if (seen.count >= 128)
+                                      *stop = YES;
+                              }];
+    }
+    return out;
+}
+
+NSString* charactersFor(CharSet set, const std::string& custom)
 {
     switch (set)
     {
+    case CharSet::Custom:
+    {
+        NSString* c = charactersForCustom(custom);
+        if (c.length >= 2)
+        {
+            // need at least two distinct glyphs (space + one more) to make a ramp
+            return c;
+        }
+        return @" .:-=+*#%@";
+    }
     case CharSet::Simple:
         return @" .:-=+*#%@";
     case CharSet::Binary:
@@ -39,26 +83,62 @@ NSString* charactersFor(CharSet set)
     }
 }
 
-CTFontRef createMonoFont(CGFloat size)
+CTFontRef createMonoFont(CGFloat size, int fontIndex)
 {
-    CTFontRef font = CTFontCreateWithName(CFSTR("Menlo-Regular"), size, nullptr);
+    fontIndex = std::max(0, std::min(fontIndex, kFontCount - 1));
+    CFStringRef name = CFStringCreateWithCString(nullptr, kFontNames[fontIndex], kCFStringEncodingUTF8);
+    CTFontRef font = CTFontCreateWithName(name, size, nullptr);
+    CFRelease(name);
     if (!font)
         font = CTFontCreateUIFontForLanguage(kCTFontUIFontUserFixedPitch, size, nullptr);
     return font;
 }
 
-std::shared_ptr<GlyphAtlas> buildAtlas(CharSet set, int cw, int ch)
+// `message` non-null = message mode: glyphs stay in order of first use (no ink sort), a solid cell is
+// appended, and atlas->seq records the glyph for each character of the repeating message.
+std::shared_ptr<GlyphAtlas> buildAtlas(CharSet set, int fontIndex, const std::string& custom, const std::string* message, int cw, int ch)
 {
     @autoreleasepool
     {
         NSMutableArray<NSString*>* glyphs = [NSMutableArray array];
-        NSString* chars = charactersFor(set);
-        [chars enumerateSubstringsInRange:NSMakeRange(0, chars.length)
-                                  options:NSStringEnumerationByComposedCharacterSequences
-                               usingBlock:^(NSString* sub, NSRange, NSRange, BOOL*) { [glyphs addObject:sub]; }];
+        std::vector<uint16_t> seq;
+        const bool ordered = message != nullptr;
+        if (!ordered)
+        {
+            NSString* chars = charactersFor(set, custom);
+            [chars enumerateSubstringsInRange:NSMakeRange(0, chars.length)
+                                      options:NSStringEnumerationByComposedCharacterSequences
+                                   usingBlock:^(NSString* sub, NSRange, NSRange, BOOL*) { [glyphs addObject:sub]; }];
+        }
+        else
+        {
+            NSString* text = [[NSString alloc] initWithBytes:message->data() length:message->size() encoding:NSUTF8StringEncoding];
+            if (!text || text.length == 0)
+                text = @" ";
+            NSCharacterSet* ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+            // Make sure the repeat is separated by a gap.
+            if ([text rangeOfCharacterFromSet:ws.invertedSet options:NSBackwardsSearch].location == text.length - 1)
+                text = [text stringByAppendingString:@" "];
+            NSMutableDictionary<NSString*, NSNumber*>* index = [NSMutableDictionary dictionary];
+            NSMutableArray<NSString*>* g = glyphs;
+            std::vector<uint16_t>* seqP = &seq;
+            [text enumerateSubstringsInRange:NSMakeRange(0, text.length)
+                                     options:NSStringEnumerationByComposedCharacterSequences
+                                  usingBlock:^(NSString* sub, NSRange, NSRange, BOOL*) {
+                                      NSString* key = [sub rangeOfCharacterFromSet:ws.invertedSet].location == NSNotFound ? @" " : sub;
+                                      NSNumber* found = index[key];
+                                      if (!found)
+                                      {
+                                          found = @(g.count);
+                                          index[key] = found;
+                                          [g addObject:key];
+                                      }
+                                      seqP->push_back(uint16_t(found.intValue));
+                                  }];
+        }
 
         const CGFloat baseSize = 100.0;
-        CTFontRef font = createMonoFont(baseSize);
+        CTFontRef font = createMonoFont(baseSize, fontIndex);
 
         // Fit the font's line box to the cell: horizontally by the advance of
         // 'M', vertically by ascent + descent.  The glyphs are stretched to the
@@ -75,13 +155,14 @@ std::shared_ptr<GlyphAtlas> buildAtlas(CharSet set, int cw, int ch)
         auto atlas = std::make_shared<GlyphAtlas>();
         atlas->cellW = cw;
         atlas->cellH = ch;
-        const int n = int(glyphs.count);
+        const int glyphCount = int(glyphs.count);
+        const int n = glyphCount + (ordered ? 1 : 0);  // + solid cell in message mode
         const size_t cellBytes = size_t(cw) * ch;
         std::vector<uint8_t> raw(cellBytes * n, 0);
         std::vector<float> rawInk(size_t(n), 0.0f);
 
         CGColorSpaceRef gray = CGColorSpaceCreateDeviceGray();
-        for (int i = 0; i < n; ++i)
+        for (int i = 0; i < glyphCount; ++i)
         {
             uint8_t* dst = raw.data() + cellBytes * size_t(i);
             CGContextRef ctx = CGBitmapContextCreate(dst, size_t(cw), size_t(ch), 8, size_t(cw), gray, kCGImageAlphaNone);
@@ -110,6 +191,17 @@ std::shared_ptr<GlyphAtlas> buildAtlas(CharSet set, int cw, int ch)
         }
         CGColorSpaceRelease(gray);
         CFRelease(font);
+
+        if (ordered)
+        {
+            const int solid = n - 1;
+            std::fill_n(raw.data() + cellBytes * size_t(solid), cellBytes, uint8_t(255));
+            atlas->count = n;
+            atlas->pixels = std::move(raw);
+            atlas->solid = solid;
+            atlas->seq = std::move(seq);
+            return atlas;
+        }
 
         // Sort by ink, ascending.
         std::vector<int> order(static_cast<size_t>(n));
@@ -144,16 +236,28 @@ std::shared_ptr<GlyphAtlas> buildAtlas(CharSet set, int cw, int ch)
 
 }  // namespace
 
-std::shared_ptr<const GlyphAtlas> GetAtlas(CharSet set, int cellW, int cellH)
+std::shared_ptr<const GlyphAtlas> GetAtlas(CharSet set, int font, const std::string& customUtf8, int cellW, int cellH)
 {
-    using Key = std::tuple<int, int, int>;
+    return GetAtlasImpl(set, font, customUtf8, nullptr, cellW, cellH);
+}
+
+std::shared_ptr<const GlyphAtlas> GetMessageAtlas(int font, const std::string& message, int cellW, int cellH)
+{
+    return GetAtlasImpl(CharSet::Classic, font, std::string(), &message, cellW, cellH);
+}
+
+std::shared_ptr<const GlyphAtlas> GetAtlasImpl(CharSet set, int font, const std::string& customUtf8, const std::string* message, int cellW, int cellH)
+{
+    using Key = std::tuple<int, int, int, int, std::string>;
     static std::mutex mutex;
     static std::map<Key, std::shared_ptr<const GlyphAtlas>> cache;
     static std::deque<Key> order;
 
     cellW = std::max(2, std::min(cellW, 256));
     cellH = std::max(2, std::min(cellH, 512));
-    const Key key{int(set), cellW, cellH};
+    // Message atlases use a negative set id so they never collide with ramp atlases.
+    const Key key{message ? -1 : int(set), std::max(0, std::min(font, kFontCount - 1)), cellW, cellH,
+                  message ? *message : (set == CharSet::Custom ? customUtf8 : std::string())};
 
     {
         std::lock_guard<std::mutex> lock(mutex);
@@ -163,7 +267,7 @@ std::shared_ptr<const GlyphAtlas> GetAtlas(CharSet set, int cellW, int cellH)
     }
 
     // Build outside the lock; a rare duplicate build is harmless.
-    std::shared_ptr<const GlyphAtlas> built = buildAtlas(set, cellW, cellH);
+    std::shared_ptr<const GlyphAtlas> built = buildAtlas(set, std::get<1>(key), customUtf8, message, cellW, cellH);
 
     std::lock_guard<std::mutex> lock(mutex);
     auto inserted = cache.emplace(key, built);

@@ -8,7 +8,7 @@
 // Keep in sync with AsciiDepth.h / GlobalSetup() in AsciiDepth.cpp:
 //   Name / Category / Match Name
 //   AE_Effect_Version = PF_VERSION(1,0,0,DEVELOP,1) = 524289
-//   Global OutFlags   = PF_OutFlag_DEEP_COLOR_AWARE            (0x02000000)
+//   Global OutFlags   = PF_OutFlag_DEEP_COLOR_AWARE | PF_OutFlag_SEND_UPDATE_PARAMS_UI (0x02000000 | 0x04000000)
 //   Global OutFlags 2 = PF_OutFlag2_SUPPORTS_THREADED_RENDERING (0x08000000)
 
 resource 'PiPL' (16000) {
@@ -47,7 +47,7 @@ resource 'PiPL' (16000) {
 			0
 		},
 		AE_Effect_Global_OutFlags {
-			0x02000000
+			0x06000000
 		},
 		AE_Effect_Global_OutFlags_2 {
 			0x08000000

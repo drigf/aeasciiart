@@ -5,6 +5,8 @@
 // Keys: cell, aspect, charset(0-3), invertchars, brightness, contrast, gamma,
 //       depth(0 auto,1 layer,2 subject), depthmap=<png>, invertdepth,
 //       depthcontrast, smooth, near, far, focus, height, bright,
+//       font(0-6), custom=<chars> (use with charset=4),
+//       message=<text> (turns on message mode), fill(0 none,1 bright,2 dark,3 near), threshold, scroll,
 //       bg(0 black,1 transparent,2 dimmed), deep(0/1: run the 16-bit path)
 
 #import <CoreGraphics/CoreGraphics.h>
@@ -112,6 +114,17 @@ int main(int argc, char** argv)
         s.cellAspect = f("aspect", 1.7f);
         s.charSet = ascii::CharSet(int(f("charset", 0)));
         s.invertChars = f("invertchars", 0) != 0;
+        s.font = int(f("font", 0));
+        if (kv.count("message"))
+        {
+            s.messageMode = true;
+            s.message = kv["message"];
+        }
+        s.fillMode = int(f("fill", 1));
+        s.fillThreshold = f("threshold", 0.5f);
+        s.scroll = int(f("scroll", 0));
+        if (kv.count("custom"))
+            s.customChars = kv["custom"];
         s.brightness = f("brightness", 0);
         s.contrast = f("contrast", 1);
         s.gamma = f("gamma", 1);
@@ -165,7 +178,8 @@ int main(int argc, char** argv)
 
         int cw, ch;
         ascii::CellPixelSize(s, cw, ch);
-        inputs.atlas = ascii::GetAtlas(s.charSet, cw, ch);
+        inputs.atlas = s.messageMode ? ascii::GetMessageAtlas(s.font, s.message, cw, ch)
+                                     : ascii::GetAtlas(s.charSet, s.font, s.customChars, cw, ch);
         fprintf(stderr, "atlas: %d glyphs @ %dx%d\n", inputs.atlas->count, cw, ch);
 
         std::vector<uint8_t> outBuf(size_t(in.w) * in.h * 4 * (deep ? 2 : 1));

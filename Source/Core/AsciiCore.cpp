@@ -352,6 +352,7 @@ void Render(const Inputs& in, const Settings& s, const OutputView& out)
     std::vector<float> cellLevel(nCells);
     const float invGamma = 1.0f / std::max(0.05f, s.gamma);
     const float nearL = clamp01(s.nearLevel), farL = clamp01(s.farLevel);
+    const bool msgMode = s.messageMode && !atlas.seq.empty() && atlas.solid >= 0;
 
     for (size_t k = 0; k < nCells; ++k)
     {
@@ -366,6 +367,26 @@ void Render(const Inputs& in, const Settings& s, const OutputView& out)
             d = 1.0f - d;
         d = clamp01(0.5f + (d - 0.5f) * s.depthContrast);
         cellLevel[k] = farL + (nearL - farL) * d;
+
+        if (msgMode)
+        {
+            // Reading order across the whole frame: the message just keeps repeating.
+            const long seqN = long(atlas.seq.size());
+            long idx = (long(k) + long(s.scroll)) % seqN;
+            if (idx < 0)
+                idx += seqN;
+            uint16_t glyph = atlas.seq[size_t(idx)];
+
+            bool fill = false;
+            switch (s.fillMode)
+            {
+            case 1: fill = t > s.fillThreshold; break;
+            case 2: fill = t < s.fillThreshold; break;
+            case 3: fill = d > s.fillThreshold; break;
+            default: break;
+            }
+            cellGlyph[k] = fill ? uint16_t(atlas.solid) : glyph;
+        }
     }
 
     // --- 4. Rasterise ---------------------------------------------------------------
